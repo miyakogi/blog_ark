@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+    Livemark.vimを色々更新しました
+</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="../css/theme.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&subset=latin,latin-ext">
+	<link rel="stylesheet" href="../genericons/genericons.css">
+	<link rel="stylesheet" href="../css/pygments.css">
+
+	<!--[if lt IE 9]><script src="../js/html5shiv.min.js"></script><![endif]-->
+	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/theme.js"></script>
+</head>
+
+<body class="posts single">
+	<header id="site-header" class="site-header">
+		<div id="masthead" class="masthead">
+			<h2 class="site-title">
+				<a href="../index.html">Blank File</a>
+			</h2>
+			<p class="site-description">Arkで作りました</p>
+			<button class="toggle-button">Menu</button>
+		</div>
+
+		<div id="includes" class="includes">
+			
+				<nav id="menu" class="menu">
+					<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../about.html">About</a></li>
+<li><a href="../posts/index.html">Posts</a></li>
+</ul>
+				</nav>
+			
+
+			
+				<div id="sidebar" class="sidebar">
+					<h3>Some Links</h3>
+<ul>
+<li><a href="#">Link One</a></li>
+<li><a href="#">Link Two</a></li>
+<li><a href="#">Link Three</a></li>
+</ul>
+<h3>Some Text</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua.</p>
+				</div>
+			
+		</div>
+	</header>
+
+	<div class="wrapper">
+		<main id="main" class="main">
+			
+    <article class="record record-posts">
+        <header class="record-header">
+            <h1 class="record-title">Livemark.vimを色々更新しました</h1>
+        </header>
+
+        <div class="record-content">
+            <p>Markdown文書をリアルタイムで更新するVimプラグイン、<a href="https://github.com/miyakogi/livemark.vim">Livemark.vim</a>を更新しました。</p>
+<p><code>+channel</code>なVimじゃなくても<code>+python</code>なら動作するので、よければお試し下さい。
+安定したものがいい場合は<a href="https://github.com/kannokanno/previm">previm</a>などをおすすめします。</p>
+<p>オプションはGitHubの<a href="https://github.com/miyakogi/livemark.vim">README</a>に一応全て書いてあります。
+まだバグがあるかもしれませんが、その時は<a href="https://github.com/miyakogi/livemark.vim/issues">Issue</a>に報告していただけると喜んで対応します。Issueを書くのが面倒でしたら、Twitterで<a href="https://twitter.com/MiyakoDev">@MiyakoDev</a>にメンションしていただいても大丈夫です。</p>
+<!--more-->
+
+<h3>変更点</h3>
+<p><a href="http://h-miyako.hatenablog.com/entry/2016/02/06/135203">先日の記事</a>以降に追加した機能（オプション）は以下のとおりです。</p>
+<ul>
+<li>ユーザー指定のcss/jsを読み込む設定追加</li>
+<li>シンタックスハイライトのテーマ指定追加</li>
+<li>プレビュー画面のスクロール同期を止めるオプション追加</li>
+</ul>
+<p>ついでに、Pythonで書かれたプレビュー用のサーバー部分を<a href="https://github.com/miyakogi/livemark">別リポジトリ</a>に分離しました。
+まだ分離しただけに近い状態ですが、機能を整理してドキュメントやテストを追加して、Vim以外のエディタからも使えるような形にできたらいいなぁ、と思っています。</p>
+<h4>CSS/JSファイルの読み込み</h4>
+<p>デフォルトでは日本語向けBootstrapテーマの<a href="http://honokak.osaka/">Honoka</a>を読み込んでいます。
+それに伴い、CDNからjQueryもロードしています。</p>
+<p>ちょっと使うには十分だと思いますが、自分のブログのテーマと同じデザインで使いたいなどの希望があるだろうと考え、CSSやJSを指定できるようにしました。
+パスの処理が雑なので、Windowsだと動かないかもしれません。</p>
+<p>指定方法は、例えばCSSを追加してデフォルトのCSSを使わない場合は以下のようになります。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_css_files <span class="p">=</span> [expand<span class="p">(</span><span class="s1">&#39;~/dotfiles/static/css/bootstrap.ja.min.css&#39;</span><span class="p">)</span>]
+<span class="k">let</span> <span class="k">g</span>:livemark_no_default_css <span class="p">=</span> <span class="m">1</span>
+</pre></div>
+
+
+<p>複数のCSSファイルを指定したい場合はそれぞれリストに追加してください。
+リストに追加された順番で読み込みます。
+URLを指定すれば（たぶん）Web上のリソースを読み込むこともできます。
+その場合はURLを指定してください。
+例えば、<code>let g:livemark_css_files = ['https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js']</code>のような感じです。</p>
+<p>デフォルトのCSSを使用し、CSSを追加したいだけの場合は二行目は不要です。
+その場合、ブラウザ上での読み込み順は デフォルトのCSS -&gt; 追加されたCSSの順になります。</p>
+<p>JSについても同様です。各オプションの<code>css</code>を<code>js</code>に変更してください。</p>
+<h4>シンタックスハイライトのテーマ設定</h4>
+<p>シンタックスハイライトには<a href="http://pygments.org/">pygments</a>を使っています。
+デフォルトでは特に指定していないのでpygmentsのデフォルトテーマが使われますが、他にも色々なテーマがあるので変更できるようにしました。</p>
+<p>変更するには以下の設定をvimrcに追加してください。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_highlight_theme <span class="p">=</span> <span class="s1">&#39;テーマ名&#39;</span>
+</pre></div>
+
+
+<p>使用可能なテーマはインストールされているpygmentsに依存します。
+コマンドラインで確認するには、以下のコマンドを実行して下さい。</p>
+<div class="codehilite"><pre>python3 -c <span class="s2">&quot;import pygments.styles; print(pygments.styles.STYLE_MAP.keys())&quot;</span>
+</pre></div>
+
+
+<p>表示されたキーが利用可能なテーマ名です。
+Livemarkのオプションで特定のpythonを指定している場合はpython3の部分をそちらに変えてください。</p>
+<h4>スクロールの同期を止めるオプションの追加</h4>
+<p>デフォルトではVimのカーソル位置に応じて画面をスクロールしています。
+具体的には、Vimのバッファに表示されている最初の行が画面の最上部に来るように調整しています。</p>
+<p>とはいえ、MarkdownからHTMLに変更する時に行番号がずれてしまうので、一応頑張って調整していますが完璧ではありません。
+また、書いている時に動かない方がいい場合もあるかと思います。</p>
+<p>ということで、以下のオプションでスクロールを停止できます。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_disable_scroll <span class="p">=</span> <span class="m">1</span>
+</pre></div>
+
+
+<h3>内部的な話</h3>
+<p>内部的にはかなり大きな変更を行いました。</p>
+<p>当初はカーソル移動やテキストの編集が行われるたびに全文をhtmlにパースし、プレビュー画面全部を書き換えるという力技で実装されていたのですが、さすがにこれだと大きなファイルの時に描画の遅れが深刻だったので修正しました。
+今は差分を検出して変更のあった部分だけを更新しています。
+個人的にはJSツラいのでJSではなくPythonで処理しました。</p>
+<p>ちょうど今<a href="https://github.com/miyakogi/wdom_py">wdom</a>というPythonからブラウザ上のDOMを操作するライブラリを開発しているので、これを使ってHTMLからDOMにパースして変更箇所だけをブラウザ上で変更、という処理にしています。Livemark用のJSはスクロール用の関数を数行書いただけで、他はPythonで実装できました。変更がない時はHTMLへの変換も行わないので、カーソル移動はかなりスムーズになったと思います。</p>
+<p>なお、このライブラリ（wdom）は絶賛開発途中です。
+Livemarkにバグがあっても「まぁ、そういう時もあるよね」という温かい心で接してください。</p>
+<p>ちなみに、wdomで目指すところはほぼJSフリーでelectron/ブラウザを使ったGUIアプリの開発です。
+昨年からelectronが流行ってますけど、JSでデスクトップアプリ作りたい人だけじゃなくて、CSSフレームワーク（Bootstrapとか）のために渋々JS書いてる人も多いんじゃないの？というのが開発の動機です。
+<s>つまり既存のGUIライブラリは見た目が残念・・・</s>
+今はLivemarkで色々使ってみて、必要な機能の確認とバグを洗い出している感じです。
+なのでまだドキュメントもありませんし、APIも変わる可能性があります。
+落ち着いたらPyPIに登録して <strong>「まだじゃわすくりぷとで消耗しているの？」</strong> 的な煽りタイトルの記事を書きたいと思っています。
+ヘタれたらもっと穏便なタイトルにするので優しくしてください。</p>
+<p>以上です。
+開発中のものを色々取り入れているのでバグがある可能性大ですが、人柱精神旺盛な方、よろしければお試しください。</p>
+        </div>
+
+        <footer class="record-footer">
+            <time class="record-date" datetime="2016-02-14">February 14, 2016</time>
+            
+                <span class="record-tags"><a href="../posts/tags/vim/index.html">vim</a>, <a href="../posts/tags/python/index.html">python</a></span>
+            
+        </footer>
+    </article>
+
+		</main>
+
+		<footer id="site-footer" class="site-footer">
+			<div class="footer-wrapper">
+				
+					<a href="http://mulholland.xyz/docs/ark/">Powered by Ark</a>
+				
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+    Vim に channel が実装されたので Markdown をプレビューするプラグインを作りました
+</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="../css/theme.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&subset=latin,latin-ext">
+	<link rel="stylesheet" href="../genericons/genericons.css">
+	<link rel="stylesheet" href="../css/pygments.css">
+
+	<!--[if lt IE 9]><script src="../js/html5shiv.min.js"></script><![endif]-->
+	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/theme.js"></script>
+</head>
+
+<body class="posts single">
+	<header id="site-header" class="site-header">
+		<div id="masthead" class="masthead">
+			<h2 class="site-title">
+				<a href="../index.html">Blank File</a>
+			</h2>
+			<p class="site-description">Arkで作りました</p>
+			<button class="toggle-button">Menu</button>
+		</div>
+
+		<div id="includes" class="includes">
+			
+				<nav id="menu" class="menu">
+					<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../about.html">About</a></li>
+<li><a href="../posts/index.html">Posts</a></li>
+</ul>
+				</nav>
+			
+
+			
+				<div id="sidebar" class="sidebar">
+					<h3>Some Links</h3>
+<ul>
+<li><a href="#">Link One</a></li>
+<li><a href="#">Link Two</a></li>
+<li><a href="#">Link Three</a></li>
+</ul>
+<h3>Some Text</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua.</p>
+				</div>
+			
+		</div>
+	</header>
+
+	<div class="wrapper">
+		<main id="main" class="main">
+			
+    <article class="record record-posts">
+        <header class="record-header">
+            <h1 class="record-title">Vim に channel が実装されたので Markdown をプレビューするプラグインを作りました</h1>
+        </header>
+
+        <div class="record-content">
+            <p>Vimにchannel機能が実装されました。</p>
+<p><a href="http://mattn.kaoriya.net/software/vim/20160129114716.htm">Big Sky :: Vim にchannel(ソケット通信機能)が付いた。</a></p>
+<p>昨日から株価・為替は乱高下し、大臣の辞任、日銀のマイナス金利導入決定など国内では大きなニュースが続いていますが、Vimmerにとってはこのパッチが最も影響があったのではないでしょうか。</p>
+<p>というわけで、せっかくなのでchannel機能を使ってプラグインを書いてみました。
+みんな大好きMarkdownのリアルタイムプレビューです。</p>
+<!-- more -->
+
+<p><a href="https://github.com/miyakogi/livemark.vim">miyakogi/livemark.vim</a></p>
+<p>channelを使ってみたかっただけなので、今のところデバッグ・エラー処理・設定などはやっつけです。
+お遊び以外では使わないでください。</p>
+<h2>インストール</h2>
+<p>インストール方法は普通のvimプラグインと同じです。コピーするなりプラグインマネージャを使うなり、お好みの方法でインストールしてください。</p>
+<p>NeoBundleをお使いの場合は <code>NeoBundle 'miyakogi/livemark.vim'</code> です。</p>
+<p>残念ながらVimはまだmarkdownの変換やwebサーバーなどの機能はないので、その辺りはPythonで処理しています。 以下のようにpythonのライブラリを別途インストールして下さい。</p>
+<div class="codehilite"><pre>pip3 install misaka pygments tornado
+</pre></div>
+
+
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello!&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>pygments はコードのシンタックスハイライトに使っています。</p>
+<p>Vimのpythonではなく外部プロセスでpythonを起動しているので、vimは<code>+python3</code>でなくても動きます。<code>vimproc</code>もなくて大丈夫です。</p>
+<p>Pythonのバージョンは3.5で確認していますが、たぶん3.4でも動くと思います。</p>
+<h2>使い方</h2>
+<p>Vimで適当なmarkdownファイルを開き、<code>:LiveMark</code>を実行してください。するとchromeが起動しますので、vimでファイルを編集したりカーソルを動かしたりしてみてください。リアルタイムで変更がブラウザ上に反映されるはずです。</p>
+<p>また、Vim上のカーソル位置も取得していますので、長い文章でブラウザの画面に収まらない場合、カーソル位置が画面に収まるようにいい感じ（自称）にスクロールします。</p>
+<p>スタイルが何もないと寂しいので、<a href="http://honokak.osaka/">Honoka</a> という日本語向けの Bootstrap テーマを同梱させていただきました<sup id="fnref:honoka-cdn"><a class="footnote-ref" href="#fn:honoka-cdn" rel="footnote">1</a></sup>。日本語でもきれいに表示されると思います。</p>
+<p>終了する時は<code>:LiveMarkDisable</code>です。何もしなくてもVimが終了した時にサーバープロセスは止まります。</p>
+<h4>手抜き感の漂うスクリーンキャスト・・・</h4>
+<p><img alt="screen cast" src="/images/livemark_sample.gif" /></p>
+<h2>諸注意</h2>
+<p>エラーなどでPythonのプロセスが残ってしまう場合があります。その時はプロセスを殺してください。</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:honoka-cdn">
+<p>HonokaのCDNがわからなかったのでコードを含めています。
+ライセンスはMITとのことなので大丈夫だとは思いますが、もし不都合ありましたらご一報ください。&#160;<a class="footnote-backref" href="#fnref:honoka-cdn" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+        </div>
+
+        <footer class="record-footer">
+            <time class="record-date" datetime="2016-01-29">January 29, 2016</time>
+            
+                <span class="record-tags"><a href="../posts/tags/python/index.html">Python</a>, <a href="../posts/tags/vim/index.html">Vim</a></span>
+            
+        </footer>
+    </article>
+
+		</main>
+
+		<footer id="site-footer" class="site-footer">
+			<div class="footer-wrapper">
+				
+					<a href="http://mulholland.xyz/docs/ark/">Powered by Ark</a>
+				
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
+
+
+
+

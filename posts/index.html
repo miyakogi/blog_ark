@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+	Posts
+</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="../css/theme.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic,700italic&subset=latin,latin-ext">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&subset=latin,latin-ext">
+	<link rel="stylesheet" href="../genericons/genericons.css">
+	<link rel="stylesheet" href="../css/pygments.css">
+
+	<!--[if lt IE 9]><script src="../js/html5shiv.min.js"></script><![endif]-->
+	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/theme.js"></script>
+</head>
+
+<body class="posts index dir-index">
+	<header id="site-header" class="site-header">
+		<div id="masthead" class="masthead">
+			<h2 class="site-title">
+				<a href="../index.html">Blank File</a>
+			</h2>
+			<p class="site-description">Arkで作りました</p>
+			<button class="toggle-button">Menu</button>
+		</div>
+
+		<div id="includes" class="includes">
+			
+				<nav id="menu" class="menu">
+					<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../about.html">About</a></li>
+<li><a href="../posts/index.html">Posts</a></li>
+</ul>
+				</nav>
+			
+
+			
+				<div id="sidebar" class="sidebar">
+					<h3>Some Links</h3>
+<ul>
+<li><a href="#">Link One</a></li>
+<li><a href="#">Link Two</a></li>
+<li><a href="#">Link Three</a></li>
+</ul>
+<h3>Some Text</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua.</p>
+				</div>
+			
+		</div>
+	</header>
+
+	<div class="wrapper">
+		<main id="main" class="main">
+			
+
+	
+
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/2016-2-14-livemark-update.html">Livemark.vimを色々更新しました</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>Markdown文書をリアルタイムで更新するVimプラグイン、<a href="https://github.com/miyakogi/livemark.vim">Livemark.vim</a>を更新しました。</p>
+<p><code>+channel</code>なVimじゃなくても<code>+python</code>なら動作するので、よければお試し下さい。
+安定したものがいい場合は<a href="https://github.com/kannokanno/previm">previm</a>などをおすすめします。</p>
+<p>オプションはGitHubの<a href="https://github.com/miyakogi/livemark.vim">README</a>に一応全て書いてあります。
+まだバグがあるかもしれませんが、その時は<a href="https://github.com/miyakogi/livemark.vim/issues">Issue</a>に報告していただけると喜んで対応します。Issueを書くのが面倒でしたら、Twitterで<a href="https://twitter.com/MiyakoDev">@MiyakoDev</a>にメンションしていただいても大丈夫です。</p>
+<!--more-->
+
+<h3>変更点</h3>
+<p><a href="http://h-miyako.hatenablog.com/entry/2016/02/06/135203">先日の記事</a>以降に追加した機能（オプション）は以下のとおりです。</p>
+<ul>
+<li>ユーザー指定のcss/jsを読み込む設定追加</li>
+<li>シンタックスハイライトのテーマ指定追加</li>
+<li>プレビュー画面のスクロール同期を止めるオプション追加</li>
+</ul>
+<p>ついでに、Pythonで書かれたプレビュー用のサーバー部分を<a href="https://github.com/miyakogi/livemark">別リポジトリ</a>に分離しました。
+まだ分離しただけに近い状態ですが、機能を整理してドキュメントやテストを追加して、Vim以外のエディタからも使えるような形にできたらいいなぁ、と思っています。</p>
+<h4>CSS/JSファイルの読み込み</h4>
+<p>デフォルトでは日本語向けBootstrapテーマの<a href="http://honokak.osaka/">Honoka</a>を読み込んでいます。
+それに伴い、CDNからjQueryもロードしています。</p>
+<p>ちょっと使うには十分だと思いますが、自分のブログのテーマと同じデザインで使いたいなどの希望があるだろうと考え、CSSやJSを指定できるようにしました。
+パスの処理が雑なので、Windowsだと動かないかもしれません。</p>
+<p>指定方法は、例えばCSSを追加してデフォルトのCSSを使わない場合は以下のようになります。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_css_files <span class="p">=</span> [expand<span class="p">(</span><span class="s1">&#39;~/dotfiles/static/css/bootstrap.ja.min.css&#39;</span><span class="p">)</span>]
+<span class="k">let</span> <span class="k">g</span>:livemark_no_default_css <span class="p">=</span> <span class="m">1</span>
+</pre></div>
+
+
+<p>複数のCSSファイルを指定したい場合はそれぞれリストに追加してください。
+リストに追加された順番で読み込みます。
+URLを指定すれば（たぶん）Web上のリソースを読み込むこともできます。
+その場合はURLを指定してください。
+例えば、<code>let g:livemark_css_files = ['https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js']</code>のような感じです。</p>
+<p>デフォルトのCSSを使用し、CSSを追加したいだけの場合は二行目は不要です。
+その場合、ブラウザ上での読み込み順は デフォルトのCSS -&gt; 追加されたCSSの順になります。</p>
+<p>JSについても同様です。各オプションの<code>css</code>を<code>js</code>に変更してください。</p>
+<h4>シンタックスハイライトのテーマ設定</h4>
+<p>シンタックスハイライトには<a href="http://pygments.org/">pygments</a>を使っています。
+デフォルトでは特に指定していないのでpygmentsのデフォルトテーマが使われますが、他にも色々なテーマがあるので変更できるようにしました。</p>
+<p>変更するには以下の設定をvimrcに追加してください。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_highlight_theme <span class="p">=</span> <span class="s1">&#39;テーマ名&#39;</span>
+</pre></div>
+
+
+<p>使用可能なテーマはインストールされているpygmentsに依存します。
+コマンドラインで確認するには、以下のコマンドを実行して下さい。</p>
+<div class="codehilite"><pre>python3 -c <span class="s2">&quot;import pygments.styles; print(pygments.styles.STYLE_MAP.keys())&quot;</span>
+</pre></div>
+
+
+<p>表示されたキーが利用可能なテーマ名です。
+Livemarkのオプションで特定のpythonを指定している場合はpython3の部分をそちらに変えてください。</p>
+<h4>スクロールの同期を止めるオプションの追加</h4>
+<p>デフォルトではVimのカーソル位置に応じて画面をスクロールしています。
+具体的には、Vimのバッファに表示されている最初の行が画面の最上部に来るように調整しています。</p>
+<p>とはいえ、MarkdownからHTMLに変更する時に行番号がずれてしまうので、一応頑張って調整していますが完璧ではありません。
+また、書いている時に動かない方がいい場合もあるかと思います。</p>
+<p>ということで、以下のオプションでスクロールを停止できます。</p>
+<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_disable_scroll <span class="p">=</span> <span class="m">1</span>
+</pre></div>
+
+
+<h3>内部的な話</h3>
+<p>内部的にはかなり大きな変更を行いました。</p>
+<p>当初はカーソル移動やテキストの編集が行われるたびに全文をhtmlにパースし、プレビュー画面全部を書き換えるという力技で実装されていたのですが、さすがにこれだと大きなファイルの時に描画の遅れが深刻だったので修正しました。
+今は差分を検出して変更のあった部分だけを更新しています。
+個人的にはJSツラいのでJSではなくPythonで処理しました。</p>
+<p>ちょうど今<a href="https://github.com/miyakogi/wdom_py">wdom</a>というPythonからブラウザ上のDOMを操作するライブラリを開発しているので、これを使ってHTMLからDOMにパースして変更箇所だけをブラウザ上で変更、という処理にしています。Livemark用のJSはスクロール用の関数を数行書いただけで、他はPythonで実装できました。変更がない時はHTMLへの変換も行わないので、カーソル移動はかなりスムーズになったと思います。</p>
+<p>なお、このライブラリ（wdom）は絶賛開発途中です。
+Livemarkにバグがあっても「まぁ、そういう時もあるよね」という温かい心で接してください。</p>
+<p>ちなみに、wdomで目指すところはほぼJSフリーでelectron/ブラウザを使ったGUIアプリの開発です。
+昨年からelectronが流行ってますけど、JSでデスクトップアプリ作りたい人だけじゃなくて、CSSフレームワーク（Bootstrapとか）のために渋々JS書いてる人も多いんじゃないの？というのが開発の動機です。
+<s>つまり既存のGUIライブラリは見た目が残念・・・</s>
+今はLivemarkで色々使ってみて、必要な機能の確認とバグを洗い出している感じです。
+なのでまだドキュメントもありませんし、APIも変わる可能性があります。
+落ち着いたらPyPIに登録して <strong>「まだじゃわすくりぷとで消耗しているの？」</strong> 的な煽りタイトルの記事を書きたいと思っています。
+ヘタれたらもっと穏便なタイトルにするので優しくしてください。</p>
+<p>以上です。
+開発中のものを色々取り入れているのでバグがある可能性大ですが、人柱精神旺盛な方、よろしければお試しください。</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2016-02-14">February 14, 2016</time>
+				
+					<span class="record-tags"><a href="../posts/tags/vim/index.html">vim</a>, <a href="../posts/tags/python/index.html">python</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/channel1.html">Vim の channel と json のパフォーマンス</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>先日公開した <a href="https://github.com/miyakogi/livemark.vim">livemark.vim</a> には想像以上にたくさんの反響をいただきました。
+ありがとうございます。
+最近では海外の方からもGithubのスターをいただきました。
+思いつきで作ったプラグインでしたが、せっかくなので普段使いできるようにいくつか更新しました。</p>
+<!-- more -->
+
+<ul>
+<li>channel をサポートしない vim では python を使うように修正<ul>
+<li>channelをサポートするvimでもpythonを使いたい場合は <code>let g:livemark_force_pysocket=1</code> で使えます</li>
+</ul>
+</li>
+<li>マークダウンの変換及びプレビュー表示をするpythonを指定する設定追加<ul>
+<li><code>let g:livemark_python='/path/to/python'</code> で指定できます</li>
+</ul>
+</li>
+<li>プレビューを表示するブラウザを vim から設定できるように修正<ul>
+<li><code>let g:livemark_browser='[ブラウザ名]'</code> で設定できます</li>
+<li>設定可能なブラウザと名前は<a href="http://docs.python.jp/3/library/webbrowser.html#webbrowser.register">ここ</a>を参照してください</li>
+</ul>
+</li>
+<li>プレビュー表示に使うポートと vim からデータを送るために使うポートの設定を追加<ul>
+<li>それぞれ <code>g:livemark_browser_port</code> と <code>g:livemark_vim_port</code> です</li>
+<li>デフォルト値はそれぞれ 8089, 8090 です</li>
+</ul>
+</li>
+</ul>
+<p>とはいえ、まだ安定しているとは言いがたい状態なので、マークダウンのプレビューには <a href="https://github.com/kannokanno/previm">previm</a> などを使うのがいいと思います。</p>
+<p>今の実装だと変更がある度に画面全体を再描画していて大きいファイルのプレビューは厳しいので、差分だけ更新するような処理を実装中です。</p>
+<p>そんな感じで地味に更新したりしてたのですが、<a href="http://ftp.vim.org/vim/patches/7.4/7.4.1244">このパッチ</a>でchannel関係の関数名が全部変わったので動かなくなりました（つらい</p>
+<p><img alt="channel error" src="../images/channel_error.png" /></p>
+<p>修正してもまた仕様変更あったら面倒だなぁ、と微妙にやる気が減退気味だったのと、pythonでデータ送ってもそんなにもたつきを感じなかったりして「もしかして Vim の channel より python の方が速い・・・？いや channel も json も C で書かれてるしそんなはずは・・・でも Vim だし何が起きるかわからん」という疑問が沸き起こったので測ってみました。</p>
+<p>Livemark.vim では編集中のバッファの文字列を取得して json として送っているので、</p>
+<ol>
+<li>データをjsonに変換する処理</li>
+<li>変換されたデータをサーバーに送りつける処理</li>
+</ol>
+<p>に分けて計測しました。また、Vimは一旦jsonに変換してから送る場合 (raw channel) とjsonへの変換も一気に行う場合 (json channel) の両方を測りました。</p>
+<p>データを送りつけられるサーバーがボトルネックになると意味ないので、サーバーは Nim で書きました。 サーバーのコードはこんな感じです。</p>
+<div class="codehilite"><pre><span class="kn">import</span> <span class="n">nativesockets</span>
+<span class="kn">import</span> <span class="n">net</span>
+
+<span class="kd">var</span> <span class="n">server</span> <span class="o">=</span> <span class="n">newSocket</span><span class="p">()</span>
+<span class="k">let</span> <span class="n">port</span> <span class="o">=</span> <span class="n">Port</span><span class="p">(</span><span class="mi">8090</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="n">bindAddr</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="s">&quot;localhost&quot;</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="n">listen</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="kp">true</span><span class="p">:</span>
+  <span class="kd">var</span> <span class="n">client</span> <span class="o">=</span> <span class="n">newSocket</span><span class="p">()</span>
+  <span class="n">server</span><span class="p">.</span><span class="n">accept</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+  <span class="n">echo</span> <span class="s">&quot;accepted&quot;</span>
+
+  <span class="k">while</span> <span class="kp">true</span><span class="p">:</span>
+    <span class="kd">var</span> <span class="n">data</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="kd">var</span> <span class="n">res_client</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res_client</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">echo</span> <span class="s">&quot;connection closed&quot;</span>
+      <span class="n">client</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+      <span class="k">break</span>
+
+<span class="n">server</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>ベンチマークのコードはこんな感じ</p>
+<div class="codehilite"><pre><span class="k">scriptencoding</span> utf<span class="m">-8</span>
+
+<span class="k">let</span> s:data <span class="p">=</span> readfile<span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">)</span>
+
+<span class="k">function</span><span class="p">!</span> s:py_eval<span class="p">()</span> abort
+  <span class="k">python</span> <span class="o">&lt;&lt;</span>EOF
+<span class="kn">import</span> <span class="nn">socket</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">vim</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">vim</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s1">&#39;s:data&#39;</span><span class="p">)</span>
+<span class="n">EOF</span>
+<span class="n">endfunction</span>
+
+<span class="n">function</span><span class="err">!</span> <span class="n">s</span><span class="p">:</span><span class="n">json_vim</span><span class="p">()</span> <span class="n">abort</span>
+  <span class="n">let</span> <span class="n">s</span><span class="p">:</span><span class="n">json_data</span> <span class="o">=</span> <span class="n">jsonencode</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">data</span><span class="p">)</span>
+<span class="n">endfunction</span>
+
+<span class="n">function</span><span class="err">!</span> <span class="n">s</span><span class="p">:</span><span class="n">json_py</span><span class="p">()</span> <span class="n">abort</span>
+  <span class="n">python</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
+<span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">EOF</span>
+<span class="n">endfunction</span>
+
+<span class="n">function</span><span class="err">!</span> <span class="n">s</span><span class="p">:</span><span class="n">send_data_raw</span><span class="p">()</span> <span class="n">abort</span>
+  <span class="n">let</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">ch_open</span><span class="p">(</span><span class="s1">&#39;localhost:8090&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;raw&#39;</span><span class="p">})</span>
+  <span class="n">call</span> <span class="n">ch_sendraw</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span><span class="n">json_data</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">call</span> <span class="n">ch_close</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">endfunction</span>
+
+<span class="n">function</span><span class="err">!</span> <span class="n">s</span><span class="p">:</span><span class="n">send_data_py</span><span class="p">()</span> <span class="n">abort</span>
+  <span class="n">python</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
+<span class="c1"># data = json.dumps(vim.eval(&#39;s:data&#39;)).encode(&#39;utf-8&#39;)</span>
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8090</span><span class="p">))</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json_data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+EOF
+<span class="k">endfunction</span>
+
+<span class="k">function</span><span class="p">!</span> s:send_data_sock<span class="p">()</span> abort
+  <span class="k">let</span> handler <span class="p">=</span> ch_open<span class="p">(</span><span class="s1">&#39;localhost:8090&#39;</span><span class="p">,</span> {<span class="s1">&#39;mode&#39;</span>: <span class="s1">&#39;json&#39;</span>}<span class="p">)</span>
+  <span class="k">call</span> ch_sendexpr<span class="p">(</span>handler<span class="p">,</span> s:data<span class="p">,</span> <span class="m">0</span><span class="p">)</span>
+  <span class="k">call</span> ch_close<span class="p">(</span>handler<span class="p">)</span>
+<span class="k">endfunction</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:py_eval<span class="p">()</span>
+echo <span class="s1">&#39;py_eval:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:json_vim<span class="p">()</span>
+echo <span class="s1">&#39;json_vim:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:json_py<span class="p">()</span>
+echo <span class="s1">&#39;json_py:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:send_data_raw<span class="p">()</span>
+echo <span class="s1">&#39;raw_channel:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:send_data_py<span class="p">()</span>
+echo <span class="s1">&#39;python:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+
+<span class="k">let</span> start_time <span class="p">=</span> reltime<span class="p">()</span>
+<span class="k">call</span> s:send_data_sock<span class="p">()</span>
+echo <span class="s1">&#39;json_channel:&#39;</span> . reltimestr<span class="p">(</span>reltime<span class="p">(</span>start_time<span class="p">))</span>
+</pre></div>
+
+
+<p><code>data.txt</code> には <code>This is sample data\n\n</code> が10万回、合計20万行入っています。
+Pythonの場合は Vim で読み込んだデータを python に渡す処理も入ってくるので、そこは別で計測しています。</p>
+<p>結果はこうなりました。（単位は秒、Vim のバージョンは 7.4.1265 です）</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>vim (json)</th>
+<th>vim (raw)</th>
+<th>python</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vim -&gt; py</td>
+<td>-</td>
+<td>-</td>
+<td>0.165894</td>
+</tr>
+<tr>
+<td>json化</td>
+<td>-</td>
+<td>0.496177</td>
+<td>0.300104</td>
+</tr>
+<tr>
+<td>データ送信</td>
+<td>0.488828</td>
+<td>0.023818</td>
+<td>0.087396</td>
+</tr>
+<tr>
+<td>合計</td>
+<td>0.488828</td>
+<td>0.519995</td>
+<td>0.553394</td>
+</tr>
+</tbody>
+</table>
+<p>合計あまり変わらない・・・<s>Pythonよりは速くて「channelすごい！jsonすごい！」って記事になる予定だったのに・・・・</s>jsonのエンコードにすごい時間かかってますね・・・よく考えたら、一度Vim scriptになってるのでむしろよく頑張ってる方だと思います。
+「あれ、たしかpython標準のjsonモジュールって・・・」って<a href="http://postd.cc/memory-use-and-speed-of-json-parsers/">などの疑問</a>を持ってはいけません。</p>
+<p>というわけで！Pythonで処理してもあまりパフォーマンスに影響なさそうなので！むしろ20万行のマークダウンとか書かないと思うので！channelの仕様変更に負けずに地味に更新していきたいと思います！レッツポジティブ！</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2016-02-06">February 06, 2016</time>
+				
+					<span class="record-tags"><a href="../posts/tags/vim/index.html">Vim</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/ci.html">カバレッジ取得サービスの比較（Coveralls.ioとCodecove.io)</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>※ 注意：この記事には主観とグチが含まれています。</p>
+<p>コードのカバレッジ取得サービスを調べてみました。<a href="https://coveralls.io/">Coveralls.io</a>と<a href="https://codecov.io/">Codecov.io</a>の比較です。</p>
+<p>↓こんな感じのバッジがREADMEに表示されるやつです。</p>
+<p><a href="https://codecov.io/github/miyakogi/coveralls_sample?branch=master"><img alt="codecov.io" src="https://codecov.io/github/miyakogi/coveralls_sample/coverage.svg?branch=master" /></a></p>
+<!-- more -->
+
+<p>TravisCIなどで自動テストを行い、ついでにテストのカバレッジも取得している方は多いと思います。
+カバレッジを取得できるCIサービスだと coveralls を使っているプロジェクトが多いようですが、自分が試した時はなんか反応が鈍かったりgithubのリポジトリの更新が上手く反映されなかったり...とあまりいい印象がなかったので、他のサービスも試して比べてみました。他というか<a href="https://codecov.io/">Codecov</a>しか試してませんが。Codecovは<a href="http://blog-ja.sideci.com/entry/2016/01/13/110000">SideCIさんのブログ記事</a>で知りました。ありがとうございます。</p>
+<p><strong>結論：<a href="https://codecov.io/">Codecov</a>いい感じ！おすすめですよ！</strong></p>
+<h2>利用方法</h2>
+<p>どちらも公開リポジトリは無料です。プライベートリポジトリは有料プランになります。</p>
+<p>公開リポジトリの使い方はどちらも大差ありません。Githubのアカウント連携で認証して、連携したいリポジトリを指定して、Travisとも連携してテスト後にそれぞれのサービス向けに用意されているコマンドを叩くだけです。Travis + Pythonの場合、<code>.travis.yml</code>に以下のように設定します。</p>
+<div class="codehilite"><pre><span class="l l-Scalar l-Scalar-Plain">install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install pytest pytest-cov</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install coveralls codecov</span>
+<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">py.test --cov [module or package]</span>
+<span class="l l-Scalar l-Scalar-Plain">after_success</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">coveralls</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">codecov</span>
+</pre></div>
+
+
+<p>インストールの二行目で両方のサービス用のパッケージをインストールして、after_successのところでそれぞれのサービス用のコマンドを実行して結果を送信しています。</p>
+<p>実際には使う方のサービスだけ設定すればOKです。ってゆーかですね、coverallsはこれだけで済むということに気づくまで結構時間がかかりました。</p>
+<h4>以下、しばらくcoverallsへの愚痴です</h4>
+<p>下の画像はcoverallsのドキュメントのpythonの説明です。本当にこれだけです。やる気が感じられません。好みじゃないのでリンクは貼りません。対応言語は結構たくさんありました。Rubyとかはドキュメントも結構充実してました。</p>
+<p><img alt="coveralls python document" src="/images/coveralls_pydoc.png" /></p>
+<p>まずpypiにcoveralls用のパッケージが二つあります。coverallsとpython-coverallsです。よくわからないのでざっくり説明を見た結果、おそらく大差ありません。coverallsの方がユーザーが一桁くらい多そうでした。公式が一つだけ用意してそれだけドキュメントに書いておいてくれればいいのに・・・</p>
+<p>また、coverallsの説明にはテストを走らせたあとに<code>coverage run</code>を実行してカバレッジを計算すると説明があるのですが、<code>py.test</code>を使った場合の説明がありません。私はpytestでテストを走らせてpytest-covというパッケージでテストと同時にカバレッジを取得していたので、追加でさらにcoverageを走らせるのか、スキップするテストの設定はどうするのか、カバレッジの計算から除外するモジュールの設定はどうするのか、などの情報がなくて困りました。実際にはpytest-covがcoverageを走らせているっぽいので特に何もしなくてよかったのですが。これは自分の知識不足が悪いのですが。。。情報少ない。。。そもそもトライするためのリポジトリをgithubに作っても、タイミングが悪かったのかgithubの更新が上手く取得できず、かなりストレスを感じました。</p>
+<h4>一方、codecovは</h4>
+<p>他の言語の説明でも結果のレポートはpipでインストールしたcodecovを使っていたので、pythonメインでやっている企業という印象です。<a href="https://github.com/codecov/example-python">公式のリポジトリ</a>には必要十分な説明がって、すぐに使えました。<code>coverage</code>を使う方法、<code>nosetest</code>を使う方法、<code>pytest</code>を使う方法全て書かれています。また、Travisとの連携やCircleCIとの連携も書かれています。</p>
+<h2>両サービスの比較</h2>
+<p>比較用のリポジトリをGithubに用意しました。それぞれのバッジから対象サービスを開けます。</p>
+<p><a href="https://github.com/miyakogi/coveralls_sample">miyakogi/coveralls_sample</a></p>
+<p>バッジのデザインは大差ありません。カバレッジが表示されて、カバレッジが低いと赤っぽい色になります。</p>
+<h3>リポジトリのページ</h3>
+<p>バッジから対象リポジトリの結果を開いたところです。（上：coveralls、下：codecov）
+どちらも全体のカバレッジはすぐわかるように大きく表示されています。</p>
+<p><img alt="coveralls repository top" src="/images/coveralls_top.png" /></p>
+<p><img alt="codecov repository top" src="/images/codecov_top.png" /></p>
+<p>Coverallsはビルド毎のカバレッジ変化が表示されているのですが、個別のファイルのカバレッジはパッと見ではわかりません。ここからさらにリンクをクリックしてページ遷移する必要があります。</p>
+<p>Codecovは最新のカバレッジしか表示されていませんが、個別のファイルのカバレッジも最初から表示されており、問題のあるファイルがすぐにわかります。この表示はツリー形式とリスト形式で切り替え可能です。また、ビルド毎のカバレッジの変化をグラフ表示する機能もあります（後述）。</p>
+<h3>テスト漏れ箇所の表示</h3>
+<p>どちらのサービスも行ベースでテストされている/されていない箇所を表示する機能があります。
+むしろこの機能のためにカバレッジ取得サービスを使うようなものなので、ないと話になりません。</p>
+<p><img alt="coveralls file view" src="/images/coveralls_file.png" /></p>
+<p><img alt="codecov file view" src="/images/codecov_file.png" /></p>
+<p>テストされている行は緑、されていない行は赤くなっています。
+色に関しては好みの範囲だと思いますが、私はcodecovの方が違いがわかりやすくて好きです。</p>
+<p>ちなみに、個別のファイルの結果を表示させるまでのクリック数は、Githubのリポジトリから</p>
+<ul>
+<li>coveralls<ul>
+<li>バッジ→ ビルド番号か何かクリック→ ファイル</li>
+</ul>
+</li>
+<li>codecov<ul>
+<li>バッジ→ ファイル</li>
+</ul>
+</li>
+</ul>
+<p>となっていてcodecovの方がファイルへのアクセスはしやすくなっています。その上、ユーザーが少ないからなのか、codecovの方がページを開くのが速くて快適です(体感)。</p>
+<p>また、codecovは<a href="https://github.com/codecov/browser-extension#codecov-extension">Chrome, Firefox, Opera向けのブラウザ拡張機能</a>が用意されています。この拡張をインストールすると、Githubでcodecovと連携しているリポジトリのファイルを開いた時にテストの状況が表示されるようになります。</p>
+<p><img alt="codecov github extension" src="/images/codecov_github.png" /></p>
+<p>邪魔な時は「Coverage xx.xx%」のところをクリックすれば消せます。
+Github上でカバレッジが確認できるのはポイント高いと思います。
+見た目もいい感じです。</p>
+<h3>その他の機能</h3>
+<p>Codecovはslackなどへの通知機能もあるようです。Coverallsもあるのかもしれませんがよくわかりません。</p>
+<p>Codecovはリポジトリのページにビルド毎のカバレッジ変化が表示されていませんでしたが、カバレッジの変化をグラフ表示する機能があります。前述のサンプルリポジトリのグラフはこれです。</p>
+<p><img alt="codecov.io" src="https://codecov.io/github/miyakogi/coveralls_sample/branch.svg?branch=master" /></p>
+<p>バッジのようにMarkdownやHTMLで簡単に貼り付けることができます。上のグラフのMarkdownはこんな感じです。</p>
+<p><code>![codecov.io](https://codecov.io/github/miyakogi/coveralls_sample/branch.svg?branch=master)</code></p>
+<p>バッジやグラフのMarkdown表示などはここから取得できます。</p>
+<p><img alt="codecov graph code" src="/images/codecov_getgraph.png" /></p>
+<p><small>サイトのデザインは全体的にとてもオシャレな感じなのですが、なぜグラフだけこんなに残念な感じなのでしょうか。エクセルでももう少しマシなグラフを書いてくれそうです。しかも下部の会社名の所、見事にデザインが崩れています。改善を期待しています。。。</small></p>
+<h2>まとめ</h2>
+<p>というわけで、全体的にcoverallsが印象悪かったせいでcodecovの広告記事みたいになってしまいましたが、codecov良かったのでしばらく使うつもりです。</p>
+<p>Codecovいい感じなのでよかったら検討に加えてみてください。私は本当にcodecovと関係ないのですが、この分野かなり生き残り厳しいので (TravisやCircleCI以外の消えていったCIサービスは数知れません)、サービス終了されて渋々coverallsへ移行するという状況は避けたいのです・・・よろしくお願いします・・・</p>
+<p>長文にお付き合いいただきありがとうございました。参考になれば幸いです。</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2016-02-06">February 06, 2016</time>
+				
+					<span class="record-tags"><a href="../posts/tags/python/index.html">Python</a>, <a href="../posts/tags/ci/index.html">CI</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/livemark1.html">Vim に channel が実装されたので Markdown をプレビューするプラグインを作りました</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>Vimにchannel機能が実装されました。</p>
+<p><a href="http://mattn.kaoriya.net/software/vim/20160129114716.htm">Big Sky :: Vim にchannel(ソケット通信機能)が付いた。</a></p>
+<p>昨日から株価・為替は乱高下し、大臣の辞任、日銀のマイナス金利導入決定など国内では大きなニュースが続いていますが、Vimmerにとってはこのパッチが最も影響があったのではないでしょうか。</p>
+<p>というわけで、せっかくなのでchannel機能を使ってプラグインを書いてみました。
+みんな大好きMarkdownのリアルタイムプレビューです。</p>
+<!-- more -->
+
+<p><a href="https://github.com/miyakogi/livemark.vim">miyakogi/livemark.vim</a></p>
+<p>channelを使ってみたかっただけなので、今のところデバッグ・エラー処理・設定などはやっつけです。
+お遊び以外では使わないでください。</p>
+<h2>インストール</h2>
+<p>インストール方法は普通のvimプラグインと同じです。コピーするなりプラグインマネージャを使うなり、お好みの方法でインストールしてください。</p>
+<p>NeoBundleをお使いの場合は <code>NeoBundle 'miyakogi/livemark.vim'</code> です。</p>
+<p>残念ながらVimはまだmarkdownの変換やwebサーバーなどの機能はないので、その辺りはPythonで処理しています。 以下のようにpythonのライブラリを別途インストールして下さい。</p>
+<div class="codehilite"><pre>pip3 install misaka pygments tornado
+</pre></div>
+
+
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello!&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>pygments はコードのシンタックスハイライトに使っています。</p>
+<p>Vimのpythonではなく外部プロセスでpythonを起動しているので、vimは<code>+python3</code>でなくても動きます。<code>vimproc</code>もなくて大丈夫です。</p>
+<p>Pythonのバージョンは3.5で確認していますが、たぶん3.4でも動くと思います。</p>
+<h2>使い方</h2>
+<p>Vimで適当なmarkdownファイルを開き、<code>:LiveMark</code>を実行してください。するとchromeが起動しますので、vimでファイルを編集したりカーソルを動かしたりしてみてください。リアルタイムで変更がブラウザ上に反映されるはずです。</p>
+<p>また、Vim上のカーソル位置も取得していますので、長い文章でブラウザの画面に収まらない場合、カーソル位置が画面に収まるようにいい感じ（自称）にスクロールします。</p>
+<p>スタイルが何もないと寂しいので、<a href="http://honokak.osaka/">Honoka</a> という日本語向けの Bootstrap テーマを同梱させていただきました<sup id="fnref:honoka-cdn"><a class="footnote-ref" href="#fn:honoka-cdn" rel="footnote">1</a></sup>。日本語でもきれいに表示されると思います。</p>
+<p>終了する時は<code>:LiveMarkDisable</code>です。何もしなくてもVimが終了した時にサーバープロセスは止まります。</p>
+<h4>手抜き感の漂うスクリーンキャスト・・・</h4>
+<p><img alt="screen cast" src="/images/livemark_sample.gif" /></p>
+<h2>諸注意</h2>
+<p>エラーなどでPythonのプロセスが残ってしまう場合があります。その時はプロセスを殺してください。</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:honoka-cdn">
+<p>HonokaのCDNがわからなかったのでコードを含めています。
+ライセンスはMITとのことなので大丈夫だとは思いますが、もし不都合ありましたらご一報ください。&#160;<a class="footnote-backref" href="#fnref:honoka-cdn" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2016-01-29">January 29, 2016</time>
+				
+					<span class="record-tags"><a href="../posts/tags/python/index.html">Python</a>, <a href="../posts/tags/vim/index.html">Vim</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/post-three.html">日本語の投稿テスト</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>日本語で書くとどんな見た目になるんでしょう？</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2015-02-14">February 14, 2015</time>
+				
+					<span class="record-tags"><a href="../posts/tags/python/index.html">python</a>, <a href="../posts/tags/vim/index.html">vim</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/post-two.html">Second Sample Post</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat.</p>
+<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>Brigantes femina duce exurere coloniam, expugnare castra, ac nisi felicitas
+in tali casu effugium subveniebat in aperta et solida. Neque is miseriarum
+finis. Struendum vallum, petendus agger, amissa magna ex parte luxus
+egestatis scelerum sibi conscios nisi pollutum obstrictumque meritis suis
+principem passuros.</p>
+<p>Remitti eos in Britanniam, unde a Nerone ad capessendum imperium delectus,
+Cappadocum e nobilitate, regis Archelai nepos, sed quod diu obses apud urbem
+habebatur nomine Italicus. Paternum huic genus e Flavo fratre Arminii, mater
+ex Actumero principe Chattorum erat; ipse forma decorus et armis meditentur?</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2015-01-02">January 02, 2015</time>
+				
+					<span class="record-tags"><a href="../posts/tags/foo/index.html">foo</a>, <a href="../posts/tags/bar/index.html">bar</a>, <a href="../posts/tags/baz/index.html">baz</a></span>
+				
+			</footer>
+		</article>
+	
+		<article class="record record-posts">
+			<header class="record-header">
+				<h2 class="record-title">
+					<a href="../posts/post-one.html">First Sample Post</a>
+				</h2>
+			</header>
+
+			<div class="record-content">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat.</p>
+<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>Brigantes femina duce exurere coloniam, expugnare castra, ac nisi felicitas
+in tali casu effugium subveniebat in aperta et solida. Neque is miseriarum
+finis. Struendum vallum, petendus agger, amissa magna ex parte luxus
+egestatis scelerum sibi conscios nisi pollutum obstrictumque meritis suis
+principem passuros.</p>
+<p>Remitti eos in Britanniam, unde a Nerone ad capessendum imperium delectus,
+Cappadocum e nobilitate, regis Archelai nepos, sed quod diu obses apud urbem
+habebatur nomine Italicus. Paternum huic genus e Flavo fratre Arminii, mater
+ex Actumero principe Chattorum erat; ipse forma decorus et armis meditentur?</p>
+			</div>
+
+			<footer class="record-footer">
+				<time class="record-date" datetime="2015-01-01">January 01, 2015</time>
+				
+					<span class="record-tags"><a href="../posts/tags/foo/index.html">foo</a>, <a href="../posts/tags/bar/index.html">bar</a>, <a href="../posts/tags/baz/index.html">baz</a></span>
+				
+			</footer>
+		</article>
+	
+
+	
+
+
+		</main>
+
+		<footer id="site-footer" class="site-footer">
+			<div class="footer-wrapper">
+				
+					<a href="http://mulholland.xyz/docs/ark/">Powered by Ark</a>
+				
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
+
+
+
+

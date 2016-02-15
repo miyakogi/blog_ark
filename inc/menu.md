@@ -4,4 +4,4 @@
 
 * [Home](@root/)
 * [About](@root/about//)
-* [Posts](@root/posts/index//)
+* [Blog](@root/posts/index//)

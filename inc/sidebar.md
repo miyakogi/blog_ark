@@ -2,14 +2,8 @@
 # This is a sample include file.
 ---
 
-### Some Links
+### Links
 
-* [Link One](#)
-* [Link Two](#)
-* [Link Three](#)
-
-### Some Text
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua.
+* [Twitter](https://twitter.com/MiyakoDev/)
+* [GitHub](https://github.com/miyakogi/)
+* [はてなブログ](http://h-miyako.hatenablog.com/)

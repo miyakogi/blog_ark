@@ -2,7 +2,7 @@
 title: Home
 ---
 
-Arkを使って作ってみました。
+[Ark](http://mulholland.xyz/docs/ark/index.html)を使って作ってみました。
 
 このブログのソースは[GitHubのリポジトリ](https://github.com/miyakogi/blog_ark/)にあります。
 

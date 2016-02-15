@@ -10,7 +10,7 @@
 # the default settings.
 
 title = "Blank File"
-description = 'Arkで作りました'
+description = '<a href="https://mulholland.xyz/docs/ark/index.html">Ark</a>で作りました'
 
 markdown = {
     'extensions': ['fenced_code', 'codehilite', 'extra']

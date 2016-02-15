@@ -25,7 +25,7 @@
 			<h2 class="site-title">
 				<a href="../index.html">Blank File</a>
 			</h2>
-			<p class="site-description">Arkで作りました</p>
+			<p class="site-description"><a href="https://mulholland.xyz/docs/ark/index.html">Ark</a>で作りました</p>
 			<button class="toggle-button">Menu</button>
 		</div>
 
@@ -47,6 +47,7 @@
 <li><a href="https://twitter.com/MiyakoDev/">Twitter</a></li>
 <li><a href="https://github.com/miyakogi/">GitHub</a></li>
 <li><a href="http://h-miyako.hatenablog.com/">はてなブログ</a></li>
+<li><a href="http://mulholland.xyz/docs/ark/index.html">Ark</a></li>
 </ul>
 				</div>
 			
@@ -90,7 +91,7 @@
 <p>ちょっと使うには十分だと思いますが、自分のブログのテーマと同じデザインで使いたいなどの希望があるだろうと考え、CSSやJSを指定できるようにしました。
 パスの処理が雑なので、Windowsだと動かないかもしれません。</p>
 <p>指定方法は、例えばCSSを追加してデフォルトのCSSを使わない場合は以下のようになります。</p>
-<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_css_files <span class="p">=</span> [expand<span class="p">(</span><span class="s1">&#39;~/dotfiles/static/css/bootstrap.ja.min.css&#39;</span><span class="p">)</span>]
+<div class="codehilite"><pre><span></span><span class="k">let</span> <span class="k">g</span>:livemark_css_files <span class="p">=</span> [expand<span class="p">(</span><span class="s1">&#39;~/dotfiles/static/css/bootstrap.ja.min.css&#39;</span><span class="p">)</span>]
 <span class="k">let</span> <span class="k">g</span>:livemark_no_default_css <span class="p">=</span> <span class="m">1</span>
 </pre></div>
 
@@ -107,13 +108,13 @@ URLを指定すれば（たぶん）Web上のリソースを読み込むこと�
 <p>シンタックスハイライトには<a href="http://pygments.org/">pygments</a>を使っています。
 デフォルトでは特に指定していないのでpygmentsのデフォルトテーマが使われますが、他にも色々なテーマがあるので変更できるようにしました。</p>
 <p>変更するには以下の設定をvimrcに追加してください。</p>
-<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_highlight_theme <span class="p">=</span> <span class="s1">&#39;テーマ名&#39;</span>
+<div class="codehilite"><pre><span></span><span class="k">let</span> <span class="k">g</span>:livemark_highlight_theme <span class="p">=</span> <span class="s1">&#39;テーマ名&#39;</span>
 </pre></div>
 
 
 <p>使用可能なテーマはインストールされているpygmentsに依存します。
 コマンドラインで確認するには、以下のコマンドを実行して下さい。</p>
-<div class="codehilite"><pre>python3 -c <span class="s2">&quot;import pygments.styles; print(pygments.styles.STYLE_MAP.keys())&quot;</span>
+<div class="codehilite"><pre><span></span>python3 -c <span class="s2">&quot;import pygments.styles; print(pygments.styles.STYLE_MAP.keys())&quot;</span>
 </pre></div>
 
 
@@ -125,7 +126,7 @@ Livemarkのオプションで特定のpythonを指定している場合はpython
 <p>とはいえ、MarkdownからHTMLに変更する時に行番号がずれてしまうので、一応頑張って調整していますが完璧ではありません。
 また、書いている時に動かない方がいい場合もあるかと思います。</p>
 <p>ということで、以下のオプションでスクロールを停止できます。</p>
-<div class="codehilite"><pre><span class="k">let</span> <span class="k">g</span>:livemark_disable_scroll <span class="p">=</span> <span class="m">1</span>
+<div class="codehilite"><pre><span></span><span class="k">let</span> <span class="k">g</span>:livemark_disable_scroll <span class="p">=</span> <span class="m">1</span>
 </pre></div>
 
 
@@ -202,7 +203,7 @@ Livemarkにバグがあっても「まぁ、そういう時もあるよね」と
 </ol>
 <p>に分けて計測しました。また、Vimは一旦jsonに変換してから送る場合 (raw channel) とjsonへの変換も一気に行う場合 (json channel) の両方を測りました。</p>
 <p>データを送りつけられるサーバーがボトルネックになると意味ないので、サーバーは Nim で書きました。 サーバーのコードはこんな感じです。</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="n">nativesockets</span>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="n">nativesockets</span>
 <span class="kn">import</span> <span class="n">net</span>
 
 <span class="kd">var</span> <span class="n">server</span> <span class="o">=</span> <span class="n">newSocket</span><span class="p">()</span>
@@ -228,7 +229,7 @@ Livemarkにバグがあっても「まぁ、そういう時もあるよね」と
 
 
 <p>ベンチマークのコードはこんな感じ</p>
-<div class="codehilite"><pre><span class="k">scriptencoding</span> utf<span class="m">-8</span>
+<div class="codehilite"><pre><span></span><span class="k">scriptencoding</span> utf<span class="m">-8</span>
 
 <span class="k">let</span> s:data <span class="p">=</span> readfile<span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">)</span>
 
@@ -368,7 +369,7 @@ Pythonの場合は Vim で読み込んだデータを python に渡す処理も�
 <h2>利用方法</h2>
 <p>どちらも公開リポジトリは無料です。プライベートリポジトリは有料プランになります。</p>
 <p>公開リポジトリの使い方はどちらも大差ありません。Githubのアカウント連携で認証して、連携したいリポジトリを指定して、Travisとも連携してテスト後にそれぞれのサービス向けに用意されているコマンドを叩くだけです。Travis + Pythonの場合、<code>.travis.yml</code>に以下のように設定します。</p>
-<div class="codehilite"><pre><span class="l l-Scalar l-Scalar-Plain">install</span><span class="p p-Indicator">:</span>
+<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">install</span><span class="p p-Indicator">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install pytest pytest-cov</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install coveralls codecov</span>
 <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
@@ -468,11 +469,11 @@ Github上でカバレッジが確認できるのはポイント高いと思い�
 <p>インストール方法は普通のvimプラグインと同じです。コピーするなりプラグインマネージャを使うなり、お好みの方法でインストールしてください。</p>
 <p>NeoBundleをお使いの場合は <code>NeoBundle 'miyakogi/livemark.vim'</code> です。</p>
 <p>残念ながらVimはまだmarkdownの変換やwebサーバーなどの機能はないので、その辺りはPythonで処理しています。 以下のようにpythonのライブラリを別途インストールして下さい。</p>
-<div class="codehilite"><pre>pip3 install misaka pygments tornado
+<div class="codehilite"><pre><span></span>pip3 install misaka pygments tornado
 </pre></div>
 
 
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello!&#39;</span><span class="p">)</span>
 </pre></div>
 
